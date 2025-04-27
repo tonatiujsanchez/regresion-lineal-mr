@@ -1,7 +1,7 @@
 import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
-
+from sklearn.linear_model import LinearRegression
 
 # Carga tus datos (asegúrate que la ruta sea correcta)
 try:
@@ -40,5 +40,28 @@ except Exception as e: # Captura otros posibles errores
 X= data['celsius']
 y= data['fahrenheit']
 
+# [-40 -10   0   8  15  22  38]
 print(X.values)
-print(type(y))
+
+
+X_processed = X.values.reshape(-1,1)
+y_processed = y.values.reshape(-1,1)
+
+# [[-40], [-10], [0], [8], [15], [22], [38]]
+# print(X_processed)
+# print(y_processed)
+
+# Crear modelo
+model = LinearRegression()
+
+# Entrenar modelos
+model.fit(X_processed, y_processed)
+
+# Hacer la predicción
+celsius=7900
+result = model.predict([[celsius]])
+print(f"{celsius} grados son { result } grados fahrenheit.")
+
+# Nivel de precisión
+score = model.score(X_processed, y_processed)
+print(score)
